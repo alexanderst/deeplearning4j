@@ -208,6 +208,9 @@ class MathTest extends FlatSpec with Matchers {
     val x = sd.`var`(arr)
     val y = new SDVariableWrapper(x)
 
-    x.get(SDIndex.point(0)).getArr shouldBe y(0).getArr
+    x.get(SDIndex.point(0)).eval shouldBe y(0).eval
+    x.get(SDIndex.interval(3: Long, 8: Long)).eval shouldBe y(3, 8).eval
+    x.get(SDIndex.interval(3: Long, 2, 8: Long)).eval shouldBe y(3, 2, 8).eval
+    x.get(SDIndex.all()).eval shouldBe y(-1).eval
   }
 }

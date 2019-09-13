@@ -61,7 +61,14 @@ class SDVariableWrapper {
     thisVariable = variable
   }
 
-  def apply(index: Long): SDVariable = thisVariable.get(SDIndex.point(index))
+  def apply(index: Long): SDVariable =
+    if (index < 0) thisVariable.get(SDIndex.all()) else thisVariable.get(SDIndex.point(index))
+
+  def apply(index: SDIndex): SDVariable = thisVariable.get(index)
+
+  def apply(begin: Long, end: Long): SDVariable = thisVariable.get(SDIndex.interval(begin, end))
+
+  def apply(begin: Long, strides: Long, end: Long): SDVariable = thisVariable.get(SDIndex.interval(begin, strides, end))
 
   def add(other: Double): Unit = thisVariable.add(other)
 
